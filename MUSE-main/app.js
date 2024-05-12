@@ -97,3 +97,46 @@ document.getElementById("sign-up-btn").addEventListener("click", function() {
   // Redirect the user to the transactions page
   window.location.href = "transactions.html"; // Replace "transactions.html" with the actual URL of your transactions page
 });
+function processRupeesTransaction() {
+  // Get the amount entered in Rupees
+  var rupeesAmount = parseFloat(document.getElementById("rupeesInput").value);
+  if (isNaN(rupeesAmount) || rupeesAmount <= 0) {
+      alert("Please enter a valid Rupees amount.");
+  } else {
+      // Get the current date
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+      var yyyy = today.getFullYear();
+      today = yyyy + '-' + mm + '-' + dd;
+
+      // Get the store ID where the payment was made
+      var storeId = document.querySelector('.transaction-section.active').id.replace('Section', '');
+
+      // Get the transaction table body of the corresponding store
+      var tableBody = document.querySelector('#' + storeId + ' table tbody');
+
+      // Increment transaction ID by 1
+      var lastTransactionId = parseInt(tableBody.lastElementChild.firstElementChild.textContent);
+      var newTransactionId = lastTransactionId + 1;
+
+      // Create a new row
+      var newRow = document.createElement('tr');
+      newRow.innerHTML = `
+          <td>${newTransactionId}</td>
+          <td>$${rupeesAmount}</td>
+          <td>${today}</td>
+          <td>0</td>
+      `;
+
+      // Append the new row to the table body
+      tableBody.appendChild(newRow);
+
+      // Recalculate total loyalty points for the store
+      calculateTotalLoyaltyPoints(storeId);
+
+      // Alert for successful transaction (you can remove this if not needed)
+      alert("Transaction successful!\nTransaction ID: " + newTransactionId + "\nAmount: $" + rupeesAmount + "\nDate: " + today);
+  }
+}
+

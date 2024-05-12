@@ -84,7 +84,7 @@
     .transaction-section.active {
         display: block;
     }
-    .payment-button {
+    .loyalty-payment-button, .rupees-payment-button {
         padding: 15px 30px;
         border: none;
         border-radius: 5px;
@@ -94,7 +94,7 @@
         font-size: 18px;
         margin-top: 20px;
     }
-    .payment-button:hover {
+    .loyalty-payment-button:hover, .rupees-payment-button:hover {
         background-color: darkgoldenrod;
     }
     .loyalty-points-total {
@@ -104,6 +104,23 @@
         border-radius: 5px;
         margin-bottom: 10px;
         display: inline-block;
+    }
+    .payment-option {
+        margin-bottom: 20px;
+    }
+    .payment-button {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        background-color: gold;
+        color: black;
+        cursor: pointer;
+        font-size: 18px;
+        text-decoration: none; /* Added */
+        display: inline-block; /* Added */
+    }
+    .payment-button:hover {
+        background-color: darkgoldenrod;
     }
 </style>
 </head>
@@ -122,12 +139,28 @@
         </div>
         <label for="loyaltyTransactionAmount">Enter Amount:</label>
         <input type="number" id="loyaltyTransactionAmount" name="loyaltyTransactionAmount" placeholder="Enter transaction amount..." required>
+        <!-- Loyalty Points Payment Button --><!-- Loyalty Points Payment Button -->
+<button class="loyalty-payment-button" onclick="processLoyaltyTransaction()">Pay Now</button>
+
     </div>
     <div id="rupeesSection" class="transaction-section">
-        <label for="rupeesPlaceholder">Amount in Rupees:</label>
-        <input type="text" id="rupeesPlaceholder" name="rupeesPlaceholder" placeholder="Placeholder for Rupees" readonly>
+        <label for="rupeesInput">Amount in Rupees:</label>
+        <input type="number" id="rupeesInput" name="rupeesInput" placeholder="Enter amount in Rupees" required>
+        <!-- Rupees Payment Options -->
+        <div class="payment-option">
+            <h2>Pay with Card</h2>
+            <a href="business_cards.html" class="payment-button">Pay with Card</a> <!-- Modify URL accordingly -->
+        </div>
+        <div class="payment-option">
+            <h2>Pay with UPI</h2>
+            <a href="business_cards.html" class="payment-button">Pay with UPI</a> <!-- Modify URL accordingly -->
+        </div>
+        <div class="payment-option">
+            <h2>Pay with Razorpay</h2>
+            <a href="business_cards.html" class="payment-button">Pay with Razorpay</a> <!-- Modify URL accordingly -->
+
+        </div>
     </div>
-    <button class="payment-button" onclick="processTransaction()">Pay Now</button>
 </div>
 
 <script>
@@ -145,25 +178,64 @@
         document.getElementById(mode + 'Section').classList.add('active');
     }
 
-    function processTransaction() {
-        var transactionType = document.querySelector('.mode-toggle button.active').dataset.mode;
-        if (transactionType === "loyalty") {
-            // Process loyalty points transaction
-            var currentBalance = parseInt(document.getElementById("loyaltyPointsLabel").value);
-            var transactionAmount = parseInt(document.getElementById("loyaltyTransactionAmount").value);
-            if (transactionAmount > currentBalance) {
-                alert("Insufficient loyalty points!");
-            } else {
-                // Perform transaction
-                var newBalance = currentBalance - transactionAmount;
-                document.getElementById("loyaltyPointsLabel").value = newBalance;
-                alert("Transaction successful!\nNew Loyalty Points Balance: " + newBalance);
-            }
+    function processLoyaltyTransaction() {
+        // Process loyalty points transaction
+        var currentBalance = parseInt(document.getElementById("loyaltyPointsLabel").value);
+        var transactionAmount = parseInt(document.getElementById("loyaltyTransactionAmount").value);
+        if (transactionAmount > currentBalance) {
+            alert("Insufficient loyalty points!");
         } else {
-            // Process rupees transaction (Placeholder)
-            alert("Rupees transaction placeholder.");
+            // Perform transaction
+            var newBalance = currentBalance - transactionAmount;
+            document.getElementById("loyaltyPointsLabel").value = newBalance;
+            alert("Transaction successful!\nNew Loyalty Points Balance: " + newBalance);
         }
     }
+
+ 
+</script>
+<script>
+    // Function to process Rupees transaction
+
+    function processRupeesTransaction() {
+        // Get the amount entered in Rupees
+        var rupeesAmount = parseFloat(document.getElementById("rupeesInput").value);
+        if (isNaN(rupeesAmount) || rupeesAmount <= 0) {
+            alert("Please enter a valid Rupees amount.");
+        } else {
+            // Get the current date
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+
+            // Get the store ID where the payment was made
+            var storeId = document.querySelector('.transaction-section.active').id.replace('Section', '');
+
+            // Increment transaction ID by 1
+            var tableBody = document.querySelector('#' + storeId + ' table tbody');
+            var lastTransactionId = parseInt(tableBody.lastElementChild.firstElementChild.textContent);
+            var newTransactionId = lastTransactionId + 1;
+
+            // Create a new row
+            var newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${newTransactionId}</td>
+                <td>$${rupeesAmount}</td>
+                <td>${today}</td>
+                <td>0</td>
+            `;
+
+            // Append the new row to the table body
+            tableBody.appendChild(newRow);
+
+            // Redirect to business_cards.html with transaction details as URL parameters
+            window.location.href = `business_cards.html?storeId=${storeId}&transactionId=${newTransactionId}&amount=${rupeesAmount}&date=${today}`;
+        }
+    }
+
+
 </script>
 
 </body>

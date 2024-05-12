@@ -61,6 +61,42 @@
         color: white;
         margin: 0;
     }
+    .card {
+    background-color: #292929;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 98%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border: 3px solid gold;
+    position: relative; /* Added */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.pay-button {
+    position: absolute; /* Added */
+    top: 20px; /* Adjust top position */
+    right: 20px; /* Adjust right position */
+    padding: 15px 30px; /* Increased padding */
+    border: none;
+    border-radius: 5px;
+    background-color: gold;
+    color: black;
+    cursor: pointer;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.pay-button:hover {
+    background-color: darkgoldenrod;
+}
+
 </style>
 </head>
 <body>
@@ -101,6 +137,8 @@
                 </tbody>
             </table>
         </div>
+        <button class="pay-button" onclick="window.location.href = 'consumer.html'">Pay</button>
+
     </div>
 
     <!-- Store B -->
@@ -134,6 +172,8 @@
                 </tbody>
             </table>
         </div>
+        <button class="pay-button" onclick="window.location.href = 'consumer.html'">Pay</button>
+
     </div>
 
     <!-- Add more cards for additional stores -->
@@ -179,6 +219,35 @@
         // Add more stores here if needed
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to parse URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        // Get transaction details from URL parameters
+        var storeId = getUrlParameter('storeId');
+        var transactionId = getUrlParameter('transactionId');
+        var amount = getUrlParameter('amount');
+        var date = getUrlParameter('date');
+
+        // Add a new row to the transaction table
+        var tableBody = document.querySelector('#' + storeId + ' table tbody');
+        var newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${transactionId}</td>
+            <td>$${amount}</td>
+            <td>${date}</td>
+            <td>0</td>
+        `;
+        tableBody.appendChild(newRow);
+    });
+</script>
+
 
 </body>
 </html>

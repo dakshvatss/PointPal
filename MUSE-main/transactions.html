@@ -3,19 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transaction History</title>
-<link rel="stylesheet" href="style.css"> <!-- Link to your CSS file for styling -->
+<title>Business Dashboard</title>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .header {
+        background-color: black;
+        text-align: left;
+        padding: 20px;
+        border-bottom: 10px solid gold;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border-top: none;
+    }
+    .card {
+        background-color: #292929;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        width: 98%;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border: 3px solid gold;
+        position: relative;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .card-content {
+        display: none;
+        padding: 10px 0;
+        border-radius: 5px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 8px;
+        border-bottom: 1px solid gold;
+        text-align: left;
+    }
+    h2 {
+        color: gold;
+        margin: 0;
+    }
+    p {
+        color: white;
+        margin: 0;
+    }
+    .arrow-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Transaction History</h1>
-    <div id="transactionList" class="transaction-list">
-        <!-- Transaction items will be dynamically added here -->
-    </div>
+<div class="header">
+    <h1 style="color: gold;">Business Dashboard</h1>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- Include jQuery library -->
-<script src="app.js"></script> <!-- Link to your JavaScript file for dynamic updates -->
+<div class="container">
+    <!-- Loyalty Points Settings Section -->
+    <div class="card">
+        <h2>Loyalty Points Settings</h2>
+        <div class="arrow-icon">&#9650;</div>
+        <div class="card-content">
+            <!-- Add loyalty points settings form here -->
+            <form>
+                <label for="minimumTransaction">Minimum Transaction Amount:</label><br>
+                <input type="text" id="minimumTransaction" name="minimumTransaction"><br>
+                <label for="loyaltyPercentage">Loyalty Percentage:</label><br>
+                <input type="text" id="loyaltyPercentage" name="loyaltyPercentage"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Management (FG) Section -->
+    <div class="card">
+        <h2>Customer Management (FG)</h2>
+        <div class="arrow-icon">&#9650;</div>
+        <div class="card-content">
+            <!-- Add customer management content here -->
+            <form>
+                <label for="customerId">Customer ID:</label><br>
+                <input type="text" id="customerId" name="customerId"><br><br>
+                <!-- Add more fields for customer management -->
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Loyalty Points Settings (FG) Section -->
+    <div class="card">
+        <h2>Custom Loyalty Points Settings (FG)</h2>
+        <div class="arrow-icon">&#9650;</div>
+        <div class="card-content">
+            <!-- Add custom loyalty points settings content here -->
+            <p>Custom loyalty points settings content goes here.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.querySelectorAll('.card').forEach(card => {
+        const arrowIcon = card.querySelector('.arrow-icon');
+        const cardContent = card.querySelector('.card-content');
+
+        arrowIcon.addEventListener('click', () => {
+            cardContent.style.display = cardContent.style.display === 'none' ? 'block' : 'none';
+        });
+    });
+</script>
+
 </body>
 </html>
