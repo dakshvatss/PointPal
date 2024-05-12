@@ -1,0 +1,80 @@
+/* Gold and Black Theme */
+
+body {
+  background-color: #000; /* Black background color */
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  /* Existing container styles */
+  background-color: #000; /* Black container background color */
+}
+
+.title {
+  /* Existing title styles */
+  color: #ffd700; /* Gold title color */
+}
+
+.input-field {
+  /* Existing input field styles */
+  background-color: #fff; /* White input fields */
+}
+
+.input-field i {
+  /* Existing input field icon styles */
+  color: #ffd700; /* Gold icon color */
+}
+
+.input-field input {
+  /* Existing input styles */
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #ffd700; /* Gold text color */
+}
+
+.btn {
+  /* Existing button styles */
+  background-color: #ffd700; /* Gold button color */
+  color: #000; /* Black button text color */
+}
+
+.btn:hover {
+  /* Existing button hover styles */
+  background-color: #000; /* Black button hover color */
+  color: #ffd700; /* Gold text color on hover */
+}
+
+/* Additional styles for the logo */
+.logo {
+  position: absolute;
+  top: 20px; /* Adjust the top position as needed */
+  left: 20px; /* Adjust the left position as needed */
+  width: 100px; /* Adjust the width as needed */
+  height: auto; /* Maintain the aspect ratio of the logo */
+  z-index: 999; /* Ensure it's above other elements */
+  filter: brightness(0) invert(1); /* Invert the logo color to white */
+}
+/* Add this CSS to your existing stylesheets */
+
+/* Business card styles */
+.business-card {
+  background-color: #000; /* Black background color */
+  color: #ffd700; /* Gold text color */
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.business-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.business-card p {
+  font-size: 1rem;
+}

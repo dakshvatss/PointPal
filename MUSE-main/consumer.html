@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transaction Input</title>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+    }
+    h1 {
+        color: gold;
+        text-transform: uppercase;
+        text-align: left;
+        border-bottom: 5px solid gold;
+        padding-bottom: 5px;
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid gold;
+        border-radius: 5px;
+        background-color: #292929;
+        color: white;
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid gold;
+        border-radius: 5px;
+        background-color: black;
+        color: gold;
+    }
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid gold;
+        border-radius: 5px;
+        background-color: #292929;
+        color: white;
+    }
+    .mode-toggle {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    .mode-toggle button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #333;
+        color: gold;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 0 5px;
+        width: 50%;
+    }
+    .mode-toggle button.active {
+        background-color: gold;
+        color: black;
+    }
+    .transaction-section {
+        display: none;
+        background-color: #333;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+    .transaction-section.active {
+        display: block;
+    }
+    .payment-button {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        background-color: gold;
+        color: black;
+        cursor: pointer;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    .payment-button:hover {
+        background-color: darkgoldenrod;
+    }
+    .loyalty-points-total {
+        background-color: black;
+        color: gold;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Enter Transaction Details</h1>
+    <div class="mode-toggle">
+        <button class="active" data-mode="loyalty" onclick="toggleMode('loyalty')">Loyalty Points</button>
+        <button data-mode="rupees" onclick="toggleMode('rupees')">Rupees</button>
+    </div>
+    <div id="loyaltySection" class="transaction-section active">
+        <div class="loyalty-points-total">
+            <label for="loyaltyPointsLabel">Loyalty Points:</label>
+            <input type="text" id="loyaltyPointsLabel" name="loyaltyPointsLabel" value="1000" readonly>
+        </div>
+        <label for="loyaltyTransactionAmount">Enter Amount:</label>
+        <input type="number" id="loyaltyTransactionAmount" name="loyaltyTransactionAmount" placeholder="Enter transaction amount..." required>
+    </div>
+    <div id="rupeesSection" class="transaction-section">
+        <label for="rupeesPlaceholder">Amount in Rupees:</label>
+        <input type="text" id="rupeesPlaceholder" name="rupeesPlaceholder" placeholder="Placeholder for Rupees" readonly>
+    </div>
+    <button class="payment-button" onclick="processTransaction()">Pay Now</button>
+</div>
+
+<script>
+    function toggleMode(mode) {
+        var modes = document.querySelectorAll('.mode-toggle button');
+        modes.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        document.querySelector('.mode-toggle button[data-mode="' + mode + '"]').classList.add('active');
+
+        var sections = document.querySelectorAll('.transaction-section');
+        sections.forEach(function(section) {
+            section.classList.remove('active');
+        });
+        document.getElementById(mode + 'Section').classList.add('active');
+    }
+
+    function processTransaction() {
+        var transactionType = document.querySelector('.mode-toggle button.active').dataset.mode;
+        if (transactionType === "loyalty") {
+            // Process loyalty points transaction
+            var currentBalance = parseInt(document.getElementById("loyaltyPointsLabel").value);
+            var transactionAmount = parseInt(document.getElementById("loyaltyTransactionAmount").value);
+            if (transactionAmount > currentBalance) {
+                alert("Insufficient loyalty points!");
+            } else {
+                // Perform transaction
+                var newBalance = currentBalance - transactionAmount;
+                document.getElementById("loyaltyPointsLabel").value = newBalance;
+                alert("Transaction successful!\nNew Loyalty Points Balance: " + newBalance);
+            }
+        } else {
+            // Process rupees transaction (Placeholder)
+            alert("Rupees transaction placeholder.");
+        }
+    }
+</script>
+
+</body>
+</html>

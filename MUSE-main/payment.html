@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Options</title>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+    }
+    h1 {
+        color: gold;
+    }
+    .payment-option {
+        margin-bottom: 20px;
+    }
+    .payment-button {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        background-color: gold;
+        color: black;
+        cursor: pointer;
+        font-size: 18px;
+        text-decoration: none; /* Added */
+        display: inline-block; /* Added */
+    }
+    .payment-button:hover {
+        background-color: darkgoldenrod;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Select Payment Option</h1>
+    <div class="payment-option">
+        <h2>Pay with Card</h2>
+        
+        <a href="card.html" class="payment-button">Pay with Card</a> <!-- Modify URL accordingly -->
+    </div>
+    <div class="payment-option">
+        <h2>Pay with UPI</h2>
+        <a href="upi.html" class="payment-button">Pay with UPI</a> <!-- Modify URL accordingly -->
+    </div>
+    <div class="payment-option">
+        <h2>Pay with Razorpay</h2>
+        <button id="rzp-button1" class="payment-button">Pay with Razorpay</button>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  // Razorpay script goes here
+  var options = {
+    "key": "[YOUR_KEY_ID]", // Enter the Key ID generated from the Dashboard
+    "amount": "1000",
+    "currency": "INR",
+    "description": "Acme Corp",
+    "image": "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg",
+    "prefill":
+    {
+      "email": "gaurav.kumar@example.com",
+      "contact": "+919900000000", // Enclose in quotes
+    },
+    config: {
+      display: {
+        blocks: {
+          utib: { //name for Axis block
+            name: "Pay using Axis Bank",
+            instruments: [
+              {
+                method: "card",
+                issuers: ["UTIB"]
+              },
+              {
+                method: "netbanking",
+                banks: ["UTIB"]
+              },
+            ]
+          },
+          other: { //  name for other block
+            name: "Other Payment modes",
+            instruments: [
+              {
+                method: "card",
+                issuers: ["ICIC"]
+              },
+              {
+                method: 'netbanking',
+              }
+            ]
+          }
+        },
+        hide: [
+          {
+          method: "upi"
+          }
+        ],
+        sequence: ["block.utib", "block.other"],
+        preferences: {
+          show_default_blocks: false // Should Checkout show its default blocks?
+        }
+      }
+    },
+    "handler": function (response) {
+      alert(response.razorpay_payment_id);
+    },
+    "modal": {
+      "ondismiss": function () {
+        if (confirm("Are you sure, you want to close the form?")) {
+          txt = "You pressed OK!";
+          console.log("Checkout form closed by the user");
+        } else {
+          txt = "You pressed Cancel!";
+          console.log("Complete the Payment")
+        }
+      }
+    }
+  };
+  var rzp1 = new Razorpay(options);
+  document.getElementById('rzp-button1').onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  }
+</script>
+
+</body>
+</html>

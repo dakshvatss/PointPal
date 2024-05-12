@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPI Payment</title>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+    }
+    h1 {
+        color: gold;
+    }
+    .form-container {
+        margin-top: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid gold;
+        border-radius: 5px;
+        background-color: #292929;
+        color: white;
+    }
+    input[type="submit"] {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: gold;
+        color: black;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: darkgoldenrod;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Enter Your UPI ID</h1>
+    <div class="form-container">
+        <form action="upi-payment-process.html" method="POST">
+            <label for="upiId">UPI ID:</label>
+            <input type="text" id="upiId" name="upiId" placeholder="Enter your UPI ID" required>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

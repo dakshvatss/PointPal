@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Card Payment Details</title>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+    }
+    h1 {
+        color: gold;
+    }
+    .form-container {
+        margin-top: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid gold;
+        border-radius: 5px;
+        background-color: #292929;
+        color: white;
+        margin-bottom: 10px;
+    }
+    input[type="submit"] {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: gold;
+        color: black;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: darkgoldenrod;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Enter Your Card Details</h1>
+    <div class="form-container">
+        <form action="process-card-details.html" method="POST">
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter your card number" required pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}" title="Enter card number in the format XXXX XXXX XXXX XXXX" maxlength="19" oninput="formatCardNumber(this)">
+            
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="date" id="expiryDate" name="expiryDate" required>
+            
+            <label for="cvv">CVV:</label>
+            <input type="number" id="cvv" name="cvv" placeholder="Enter CVV" required>
+            
+            <label for="cardholderName">Cardholder Name:</label>
+            <input type="text" id="cardholderName" name="cardholderName" placeholder="Enter cardholder name" required>
+            
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+<script>
+function formatCardNumber(input) {
+    // Remove any non-numeric characters
+    var cardNumber = input.value.replace(/\D/g, '');
+
+    // Ensure card number does not exceed 16 digits
+    if (cardNumber.length > 16) {
+        cardNumber = cardNumber.slice(0, 16);
+    }
+
+    // Format the card number in blocks of four digits each
+    var formattedCardNumber = cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+    // Update the input value with the formatted card number
+    input.value = formattedCardNumber;
+}
+</script>
+
+</body>
+</html>

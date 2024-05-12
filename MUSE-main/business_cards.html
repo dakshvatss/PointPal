@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loyalty Points</title>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .header {
+        background-color: black;
+        text-align: left;
+        padding: 20px;
+        border-bottom: 10px solid gold;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border-top: none;
+    }
+    .card {
+        background-color: #292929;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        width: 98%;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border: 3px solid gold;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .card-content {
+        display: none;
+        padding: 10px 0;
+        border-radius: 5px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 8px;
+        border-bottom: 1px solid gold;
+        text-align: left;
+    }
+    h2 {
+        color: gold;
+        margin: 0;
+    }
+    p {
+        color: white;
+        margin: 0;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1 style="color: gold;">Dashboard</h1>
+</div>
+
+<div class="container">
+    <!-- Store A -->
+    <div class="card" onclick="toggleTransactions('storeA')">
+        <h2>Store A</h2>
+        <p id="loyaltyPointsStoreA">Loyalty Points: 0</p>
+        <div id="storeA" class="card-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Loyalty Points Awarded</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>$50</td>
+                        <td>2024-05-01</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>$30</td>
+                        <td>2024-05-05</td>
+                        <td>7</td>
+                    </tr>
+                    <!-- Add more transactions here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Store B -->
+    <div class="card" onclick="toggleTransactions('storeB')">
+        <h2>Store B</h2>
+        <p id="loyaltyPointsStoreB">Loyalty Points: 0</p>
+        <div id="storeB" class="card-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Loyalty Points Awarded</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>003</td>
+                        <td>$40</td>
+                        <td>2024-05-02</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>004</td>
+                        <td>$60</td>
+                        <td>2024-05-07</td>
+                        <td>12</td>
+                    </tr>
+                    <!-- Add more transactions here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add more cards for additional stores -->
+</div>
+
+<script>
+    function toggleTransactions(storeId) {
+        var content = document.getElementById(storeId);
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    }
+
+    function calculateTotalLoyaltyPoints(storeId) {
+        // Get all table rows for the specific store
+        const rows = document.querySelectorAll('#' + storeId + ' tbody tr');
+        
+        // Initialize total loyalty points
+        let totalPoints = 0;
+        
+        // Iterate over each table row
+        rows.forEach(row => {
+            // Get loyalty points awarded from the last cell of each row
+            const points = parseInt(row.lastElementChild.textContent);
+            
+            // Add loyalty points to the total
+            totalPoints += points;
+        });
+        
+        // Update the loyalty points displayed for the store
+        const loyaltyPointsElement = document.getElementById('loyaltyPoints' + storeId.charAt(0).toUpperCase() + storeId.slice(1));
+        if (loyaltyPointsElement) {
+            loyaltyPointsElement.textContent = "Loyalty Points: " + totalPoints;
+        }
+    }
+
+    // Calculate loyalty points for each store after page load
+    window.addEventListener('load', function() {
+        calculateTotalLoyaltyPoints('storeA');
+        calculateTotalLoyaltyPoints('storeB');
+        // Add more stores here if needed
+    });
+</script>
+
+</body>
+</html>
